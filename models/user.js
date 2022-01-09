@@ -1,12 +1,12 @@
 "use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-	class user extends Model {
+const { Model, DataTypes } = require("sequelize");
+module.exports = (sequelize) => {
+	class User extends Model {
 		static associate(models) {
 			// define association here
 		}
 	}
-	user.init(
+	User.init(
 		{
 			full_name: {
 				type: DataTypes.STRING,
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
 				},
 			},
 			balance: {
-				type: DataTypes.STRING,
+				type: DataTypes.NUMBER,
 				allowNull: false,
 				validate: {
 					notNull: {
@@ -101,11 +101,11 @@ module.exports = (sequelize, DataTypes) => {
 						msg: "Balance cannot be empty",
 					},
 					min: {
-						args: 0,
+						args: [0],
 						msg: "Balance cannot less then Rp. 0,.",
 					},
 					max: {
-						args: 100000000,
+						args: [100000000],
 						msg: "Balance cannot more than Rp. 100.000.000,.",
 					},
 				},
@@ -113,8 +113,8 @@ module.exports = (sequelize, DataTypes) => {
 		},
 		{
 			sequelize,
-			modelName: "user",
+			modelName: "User",
 		}
 	);
-	return user;
+	return User;
 };

@@ -39,6 +39,5 @@ module.exports = {
 	},
 	down: async (queryInterface, Sequelize) => {
 		await queryInterface.dropTable("Users");
-		// queryInterface.removeConstraint("Users", "email_unique_constraint"),
 	},
 };
