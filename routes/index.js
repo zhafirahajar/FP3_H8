@@ -3,9 +3,9 @@ const userControllers = require("../controllers/userControllers");
 
 // USER REGIS - LOGIN ROUTE
 route.post("/users/register", userControllers.register);
-// route.post("/users/login", userControllers.login);
+route.post("/users/login", userControllers.login);
 
-// MIDDLEWARE CHECK TOKEN
+// MIDDLEWARE CHECK USER
 // route.use(userControllers.loginMiddleware);
 
 // USER MANAGEMENT ROUTE

@@ -1,12 +1,37 @@
-const res = require("express/lib/response");
-
 class resLibs {
-	static resCreated(res, code, data) {
-		return res.status(code).json(data);
+	static success(res, msg = null, data = {}, desc) {
+		switch (desc) {
+			case "token":
+				return res.status(200).json({ token: data });
+				break;
+		}
 	}
 
-	static resError(res, code, err) {
-		return res.status(code).json(err);
+	static created(res, data) {
+		return res.status(201).json(data);
+	}
+
+	static unauthorized(res) {
+		return res.status(401).json({ messege: "Invalid Credentials" });
+	}
+
+	static error(res, err) {
+		let errCode = 500,
+			errMessages = [];
+
+		if (err.name.includes("Sequelize")) {
+			errCode = 400;
+		}
+
+		for (let index in err.errors) {
+			let msg = err.errors[index].message;
+			errMessages.push(msg);
+		}
+
+		return res.status(errCode).json({
+			error: err.name,
+			message: errMessages,
+		});
 	}
 }
 
