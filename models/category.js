@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     sold_product_amount: {
       type : DataTypes.INTEGER,
       allowNull: false,
+      defaultValue : 0,
       validate : {
         notNull: {
           msg: "Product Amount required",
