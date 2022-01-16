@@ -116,5 +116,11 @@ module.exports = (sequelize) => {
 			modelName: "User",
 		}
 	);
+
+	User.addHook("beforeValidate", (user) => {
+		user.balance = 0;
+		user.role = "customer";
+	});
+
 	return User;
 };

@@ -7,7 +7,7 @@ class balanceLibs {
 			raw = formater.format(value),
 			length = raw.toString().length,
 			final = raw
-				.replace("IDR", "RP")
+				.replace("IDR", "Rp")
 				.replace(/,/g, ".")
 				.substring(0, length - 4);
 
