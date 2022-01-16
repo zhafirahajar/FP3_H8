@@ -4,6 +4,17 @@ class resLibs {
 			case "token":
 				return res.status(200).json({ token: data });
 				break;
+			case "updated":
+				return res.status(200).json({
+					user: {
+						id: data.user.id,
+						full_name: data.user.full_name,
+						email: data.user.email,
+						createdAt: data.user.createdAt,
+						updatedAt: data.user.updatedAt,
+					},
+				});
+				break;
 		}
 	}
 

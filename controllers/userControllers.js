@@ -41,7 +41,10 @@ class userControllers {
 		let isAuthenticated = user_auth.value;
 
 		if (isAuthenticated) {
-			userLibs.edit();
+			let isUpdated = userLibs.edit(req, res, user);
+			if (isUpdated) {
+				resLibs.success(res, null, { user }, "updated");
+			}
 		}
 	}
 }
