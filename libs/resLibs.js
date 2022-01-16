@@ -15,16 +15,27 @@ class resLibs {
 		return res.status(401).json({ messege: "Invalid Credentials" });
 	}
 
+	static notFound(res, msg) {
+		return res.status(404).json({ message: `${msg} not found` });
+	}
+
+	static notPermitted(res) {
+		return res.status(401).json({ message: "You don't have permission on this user" });
+	}
+
 	static error(res, err) {
 		let errCode = 500,
-			errMessages = [];
+			errMessages = [],
+			msg;
 
 		if (err.name.includes("Sequelize")) {
 			errCode = 400;
-		}
-
-		for (let index in err.errors) {
-			let msg = err.errors[index].message;
+			for (let index in err.errors) {
+				msg = err.errors[index].message;
+				errMessages.push(msg);
+			}
+		} else if (err.name == "JsonWebTokenError") {
+			msg = "JWT not provided";
 			errMessages.push(msg);
 		}
 

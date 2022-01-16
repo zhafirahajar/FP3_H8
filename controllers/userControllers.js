@@ -36,6 +36,16 @@ class userControllers {
 			resLibs.success(res, null, token, "token");
 		}
 	}
+
+	static async edit(req, res) {
+		let user = await userLibs.getById(req.params.userId);
+		let user_auth = await authLibs.checkUserAuth(req, res, user);
+		let isAuthenticated = user_auth.value;
+
+		if (isAuthenticated) {
+			userLibs.edit();
+		}
+	}
 }
 
 module.exports = userControllers;

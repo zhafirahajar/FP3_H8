@@ -9,6 +9,16 @@ class userLibs {
 
 		return userInstance;
 	}
+
+	static async getById(value) {
+		let userInstance = await User.findOne({
+			where: { id: value },
+		});
+
+		return userInstance;
+	}
+
+	static async edit() {}
 }
 
 module.exports = userLibs;
