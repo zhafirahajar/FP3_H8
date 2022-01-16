@@ -8,10 +8,10 @@ route.post("/users/register", userControllers.register);
 route.post("/users/login", userControllers.login);
 
 // MIDDLEWARE CHECK USER
-route.use(loginMiddleware);
+route.use(loginMiddleware.loginMiddleware);
 
 // USER MANAGEMENT ROUTE
-// route.put("/users/:userId", userControllers.edit);
+route.put("/users/:userId", userControllers.edit);
 // route.delete("/users/:userId", userControllers.delete);
 
 //MIDDLEWARE CHECK CATEGORY

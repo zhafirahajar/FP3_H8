@@ -17,14 +17,17 @@ class resLibs {
 
 	static error(res, err) {
 		let errCode = 500,
-			errMessages = [];
+			errMessages = [],
+			msg;
 
 		if (err.name.includes("Sequelize")) {
 			errCode = 400;
-		}
-
-		for (let index in err.errors) {
-			let msg = err.errors[index].message;
+			for (let index in err.errors) {
+				msg = err.errors[index].message;
+				errMessages.push(msg);
+			}
+		} else if (err.name == "JsonWebTokenError") {
+			msg = "JWT not provided";
 			errMessages.push(msg);
 		}
 

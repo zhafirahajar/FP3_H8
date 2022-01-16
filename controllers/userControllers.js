@@ -36,6 +36,10 @@ class userControllers {
 			resLibs.success(res, null, token, "token");
 		}
 	}
+
+	static async edit(req, res) {
+		let user_instance = await userLibs.findById(req.params.userId);
+	}
 }
 
 module.exports = userControllers;
