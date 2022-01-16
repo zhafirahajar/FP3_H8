@@ -17,6 +17,8 @@ class userLibs {
 
 		return userInstance;
 	}
+
+	static async edit() {}
 }
 
 module.exports = userLibs;
