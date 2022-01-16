@@ -10,15 +10,13 @@ class userControllers {
 	static register(req, res) {
 		let salt = bcrypt.genSaltSync(10),
 			password = bcrypt.hashSync(req.body.password, salt),
-			role = "customer",
-			balance = 0,
 			{ full_name, email, gender } = req.body;
 
-		User.create({ full_name, email, password, gender, role, balance })
+		User.create({ full_name, email, password, gender })
 			.then((data) => {
 				let id = data.id,
 					createdAt = data.createdAt,
-					RPbalance = RPGen.rupiahGenerator(balance);
+					RPbalance = RPGen.rupiahGenerator(data.balance);
 				resLibs.created(res, { user: { id, full_name, email, gender, balance: RPbalance, createdAt } });
 			})
 			.catch((err) => {
