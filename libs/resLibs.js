@@ -15,6 +15,10 @@ class resLibs {
 					},
 				});
 				break;
+			case "deleted":
+				return res.status(200).json({
+					message: msg,
+				});
 		}
 	}
 
@@ -36,7 +40,7 @@ class resLibs {
 
 	static error(res, err) {
 		let errCode = 500,
-			errMessages = [],
+			errMessages = err.message,
 			msg;
 
 		if (err.name.includes("Sequelize")) {

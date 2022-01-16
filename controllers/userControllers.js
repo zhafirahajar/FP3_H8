@@ -47,6 +47,19 @@ class userControllers {
 			}
 		}
 	}
+
+	static async delete(req, res) {
+		let user = await userLibs.getById(req.params.userId);
+		let user_auth = await authLibs.checkUserAuth(req, res, user);
+		let isAuthenticated = user_auth.value;
+
+		if (isAuthenticated) {
+			let isDeleted = await userLibs.delete(req, res, user);
+			if (isDeleted) {
+				resLibs.success(res, "Your account has been successfully deleted", { user }, "deleted");
+			}
+		}
+	}
 }
 
 module.exports = userControllers;

@@ -12,7 +12,7 @@ route.use(loginMiddleware.loginMiddleware);
 
 // USER MANAGEMENT ROUTE
 route.put("/users/:userId", userControllers.edit);
-// route.delete("/users/:userId", userControllers.delete);
+route.delete("/users/:userId", userControllers.delete);
 
 //MIDDLEWARE CHECK CATEGORY
 route.post("/categories", categoryControllers.create);

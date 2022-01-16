@@ -24,13 +24,26 @@ class userLibs {
 
 		let email_data = req.body.email == undefined || req.body.email == "" ? user.email : req.body.email;
 
-		await user.update({
-			full_name: full_name_data,
-			email: email_data,
-		});
+		try {
+			await user.update({
+				full_name: full_name_data,
+				email: email_data,
+			});
 
-		await user.save();
-		return true;
+			await user.save();
+			return true;
+		} catch (err) {
+			resLibs.err(res, err);
+		}
+	}
+
+	static async delete(req, res, user) {
+		try {
+			await user.destroy();
+			return true;
+		} catch (err) {
+			resLibs.error(res, err);
+		}
 	}
 }
 
