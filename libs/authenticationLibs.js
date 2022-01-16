@@ -37,12 +37,15 @@ class authLibs {
 			response;
 
 		if (data == null) {
-			return resLibs.notFound(res, "Account");
+			response = resLibs.notFound(res, "Account");
+			return { response, value };
 		} else if (data.email != user_login.email) {
 			response = resLibs.notPermitted(res);
 			return { response, value };
 		} else {
-			return (value = true);
+			response = null;
+			value = true;
+			return { response, value };
 		}
 	}
 }

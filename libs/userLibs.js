@@ -18,7 +18,20 @@ class userLibs {
 		return userInstance;
 	}
 
-	static async edit() {}
+	static async edit(req, res, user) {
+		let full_name_data =
+			req.body.full_name == undefined || req.body.full_name == "" ? user.full_name : req.body.full_name;
+
+		let email_data = req.body.email == undefined || req.body.email == "" ? user.email : req.body.email;
+
+		await user.update({
+			full_name: full_name_data,
+			email: email_data,
+		});
+
+		await user.save();
+		return true;
+	}
 }
 
 module.exports = userLibs;
