@@ -38,6 +38,10 @@ class resLibs {
 		return res.status(401).json({ message: "You don't have permission on this user" });
 	}
 
+	static notAdmin(res) {
+		return res.status(403).json({ message: "You don't have permission to access this feature" });
+	}
+
 	static error(res, err) {
 		let errCode = 500,
 			errMessages = err.message,
