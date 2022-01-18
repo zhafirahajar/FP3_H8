@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
 						msg: "Quantity cannot be empty",
 					},
 					isInt: {
+						args: true,
 						msg: "Quantity Must Be an Integer / Numbers",
 					},
 				},
@@ -41,6 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 						msg: "Total price cannot be empty",
 					},
 					isInt: {
+						args: true,
 						msg: "Total Price Must Be an Integer / Numbers",
 					},
 				},
