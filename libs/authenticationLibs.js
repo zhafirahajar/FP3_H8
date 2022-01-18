@@ -48,5 +48,23 @@ class authLibs {
 			return { response, value };
 		}
 	}
+
+	static async checkAdmin(res, data) {
+		let user = await userLibs.getByEmail(data.email),
+			value = false,
+			response;
+
+		if (data == null) {
+			response = resLibs.notFound(res, "Account");
+			return { response, value };
+		} else if (user.role != "admin") {
+			response = resLibs.notAdmin(res);
+			return { response, value };
+		} else {
+			response = null;
+			value = true;
+			return { response, value };
+		}
+	}
 }
 module.exports = authLibs;
