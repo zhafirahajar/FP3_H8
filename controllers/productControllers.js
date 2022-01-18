@@ -1,13 +1,14 @@
 const { Product } = require("../models");
 const resLibs = require("../libs/resLibs");
-const catLibs = require("../libs/categoryLibs");
+const categoryLibs = require("../libs/categoryLibs");
+const productLibs = require("../libs/productLibs");
 const RPGen = require("../libs/balanceLibs");
 
 class productController {
 	static async create(req, res) {
 		let { title, price, stock, CategoryId } = req.body;
 
-		let category = await catLibs.getById(res, CategoryId);
+		let category = await categoryLibs.getById(res, CategoryId);
 
 		if (category == null) {
 			resLibs.notFound(res, "Category");
