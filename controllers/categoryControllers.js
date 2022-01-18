@@ -1,8 +1,18 @@
 const { Category, Product } = require("../models");
 const jwt = require("jsonwebtoken");
+const authLibs = require("../libs/authenticationLibs");
+const userLibs = require("../libs/userLibs");
+const { SECRET_KEY } = process.env;
+const resLibs = require("../libs/resLibs");
 
 class categoryControllers{
-    static create(req, res){
+    static async create(req, res){
+        let user_login = jwt.verify(req.headers.token, SECRET_KEY)
+        let user = await userLibs.getById(user_login.id)
+        let user_auth = await authLibs.checkUserAuth(req, res, user);
+        let isAuthenticated = user_auth.value;
+        let isAdmin = await authLibs.checkAdmin(res, user)
+
         let input = {
             type : req.body.type
         }
@@ -19,10 +29,12 @@ class categoryControllers{
         .catch(((err) => {
             let errCode = 500;
             let errMessages = [];
+
             for (let index in err.errors) {
                     let errMsg = err.errors[index].message;
                     errMessages.push(errMsg);
             }
+
             if (err.name.includes("Sequelize")) {
                     errCode = 400;
             }
@@ -31,10 +43,18 @@ class categoryControllers{
                     error: err.name,
                     message: errMessages,
             });
-        }))
+}))
     }
 
-    static index(req, res){
+    static async index(req, res){
+
+        let user_login = jwt.verify(req.headers.token, SECRET_KEY)
+        let user = await userLibs.getById(user_login.id)
+        let user_auth = await authLibs.checkUserAuth(req, res, user);
+        let isAuthenticated = user_auth.value;
+        let isAdmin = await authLibs.checkAdmin(res, user)
+
+        
         Category.findAll({
             include : Product
         })
@@ -61,7 +81,14 @@ class categoryControllers{
         })
     }
 
+    //saat type tidak di kirim dia tidak error
     static async update(req, res){
+        let user_login = jwt.verify(req.headers.token, SECRET_KEY)
+        let user = await userLibs.getById(user_login.id)
+        let user_auth = await authLibs.checkUserAuth(req, res, user);
+        let isAuthenticated = user_auth.value;
+        let isAdmin = await authLibs.checkAdmin(res, user)
+
         let category_instance = await Category.findOne({
             where : {
                 id : req.params.categoryId
@@ -89,7 +116,13 @@ class categoryControllers{
     }
 
     static async delete(req, res){
-      let category_instance = await Category.findOne({
+        let user_login = jwt.verify(req.headers.token, SECRET_KEY)
+        let user = await userLibs.getById(user_login.id)
+        let user_auth = await authLibs.checkUserAuth(req, res, user);
+        let isAuthenticated = user_auth.value;
+        let isAdmin = await authLibs.checkAdmin(res, user)
+
+       let category_instance = await Category.findOne({
           where: {
               id : req.params.categoryId
           }

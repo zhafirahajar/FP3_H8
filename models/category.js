@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     sold_product_amount: {
       type : DataTypes.INTEGER,
       allowNull: false,
-      defaultValue : 0,
+      //efaultValue : 0,
       validate : {
         notNull: {
           msg: "Product Amount required",
@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: "Product Amount cannot be empty",
         },
         isInt: {
+          args: true,
           msg : "Product Amount Must Be an Integer / Numbers"
         }
       }
@@ -49,5 +50,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Category',
   });
+  Category.addHook("beforeValidate", (category) => {
+    category.sold_product_amount = 0
+	});
   return Category;
 };
