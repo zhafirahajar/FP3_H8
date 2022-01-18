@@ -42,6 +42,16 @@ class resLibs {
 		return res.status(403).json({ message: "You don't have permission to access this feature" });
 	}
 
+	// Response for CRUD product
+
+	static outOfStock(res) {
+		return res.status(404).json({ message: "Product out of stock!" });
+	}
+
+	static notEnoughStock(res) {
+		return res.status(404).json({ message: "Not enough stock!" });
+	}
+
 	static error(res, err) {
 		let errCode = 500,
 			errMessages = [],

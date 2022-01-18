@@ -1,7 +1,7 @@
 const { Category } = require("../models");
 
 class categoryLibs {
-	static async getById(res, value) {
+	static async getById(value) {
 		let categoryInstance = await Category.findOne({
 			where: { id: value },
 		});
