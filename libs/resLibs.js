@@ -19,6 +19,11 @@ class resLibs {
 				return res.status(200).json({
 					message: msg,
 				});
+				break;
+			case "topUp":
+				return res.status(200).json({
+					message: `Your balance has been successfully updated to ${msg}`,
+				});
 		}
 	}
 
@@ -42,16 +47,6 @@ class resLibs {
 		return res.status(403).json({ message: "You don't have permission to access this feature" });
 	}
 
-	// Response for CRUD product
-
-	static outOfStock(res) {
-		return res.status(404).json({ message: "Product out of stock!" });
-	}
-
-	static notEnoughStock(res) {
-		return res.status(404).json({ message: "Not enough stock!" });
-	}
-
 	static error(res, err) {
 		let errCode = 500,
 			errMessages = [],
@@ -66,6 +61,8 @@ class resLibs {
 		} else if (err.name == "JsonWebTokenError") {
 			msg = "JWT not provided";
 			errMessages.push(msg);
+		} else {
+			errMessages.push(err.message);
 		}
 
 		return res.status(errCode).json({
@@ -73,6 +70,22 @@ class resLibs {
 			message: errMessages,
 		});
 	}
+
+	// Response for CRUD product //
+
+	static outOfStock(res) {
+		return res.status(404).json({ message: "Product out of stock!" });
+	}
+
+	static notEnoughStock(res) {
+		return res.status(404).json({ message: "Not enough stock!" });
+	}
+
+	// ###########################
+
+	// Response for balance user //
+
+	// ###########################
 }
 
 module.exports = resLibs;

@@ -45,7 +45,7 @@ class authLibs {
 		} else {
 			response = null;
 			value = true;
-			return { response, value };
+			return { response, value, user_login };
 		}
 	}
 
