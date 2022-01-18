@@ -22,7 +22,7 @@ class productController {
 						products: {
 							id,
 							title,
-							priceRP,
+							price: priceRP,
 							stock,
 							CategoryId,
 							updatedAt,
