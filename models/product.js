@@ -61,11 +61,11 @@ module.exports = (sequelize) => {
 					},
 					min: {
 						args: [0],
-						msg: "Product's Price cannot less then 5",
+						msg: "Product's price cannot less then Rp. 0",
 					},
 					max: {
 						args: [50000000],
-						msg: "Product's Price cannot mre then Rp. 50.000.000",
+						msg: "Product's price cannot more then Rp. 50.000.000",
 					},
 				},
 			},
