@@ -1,6 +1,7 @@
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { SECRET_KEY } = process.env;
 const RPGen = require("../libs/balanceLibs");
 const resLibs = require("../libs/resLibs");
 const userLibs = require("../libs/userLibs");
@@ -63,14 +64,15 @@ class userControllers {
 	}
 
 	static async topUp(req, res) {
-		let user = await userLibs.getById(req.params.userId);
-		let user_auth = await authLibs.checkUserAuth(req, res, user);
-		let isAuthenticated = user_auth.value;
+		let token = req.headers.token,
+			user_login = jwt.verify(token, SECRET_KEY),
+			user_instance = await userLibs.getById(user_login.id);
 
-		if (isAuthenticated) {
-			let current_balance = parseInt(user.balance),
-				top_up_nominal = req.body.balance;
-		}
+		let top_up_nominal = parseInt(req.body.balance),
+			updated_balance = await balanceLibs.addBalance(res, top_up_nominal, user_instance),
+			balanceRP = RPGen.rupiahGenerator(updated_balance);
+
+		resLibs.success(res, balanceRP, null, "topUp");
 	}
 }
 

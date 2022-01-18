@@ -1,4 +1,5 @@
 const resLibs = require("../libs/resLibs");
+const { User } = require("../models");
 
 class balanceLibs {
 	static rupiahGenerator(value) {
@@ -16,13 +17,19 @@ class balanceLibs {
 		return final;
 	}
 
-	static async addBalance(res, current, value, user) {
-		let updated_balance = current + value;
+	static async addBalance(res, value, user) {
 		try {
-			await user.update({
-				balance: updated_balance,
-			});
-			await user.save();
+			await user.increment("balance", { by: value });
+			return user.balance;
+		} catch (err) {
+			resLibs.error(res, err);
+		}
+	}
+
+	static async reduceBalance(res, value, user) {
+		try {
+			await user.deccrement("balance", { by: value });
+			return user.balance;
 		} catch (err) {
 			resLibs.error(res, err);
 		}
