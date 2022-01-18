@@ -8,7 +8,7 @@ class productController {
 	static async create(req, res) {
 		let { title, price, stock, CategoryId } = req.body;
 
-		let category = await categoryLibs.getById(res, CategoryId);
+		let category = await categoryLibs.getById(CategoryId);
 
 		if (category == null) {
 			resLibs.notFound(res, "Category");
