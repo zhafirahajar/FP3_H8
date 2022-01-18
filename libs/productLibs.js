@@ -32,6 +32,25 @@ class productLibs {
 			}
 		}
 	}
+
+	static async updateStock(res, value, productId) {
+		let productInstance = await this.getById(productId),
+			updated_stock;
+
+		if (productInstance == null) {
+			resLibs.notFound(res, "Product");
+		} else {
+			updated_stock = productInstance.stock - value;
+			try {
+				await productInstance.update({
+					stock: updated_stock,
+				});
+				await productInstance.save();
+			} catch (err) {
+				resLibs.error(res, err);
+			}
+		}
+	}
 }
 
 module.exports = productLibs;
