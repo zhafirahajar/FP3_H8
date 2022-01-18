@@ -5,6 +5,7 @@ const RPGen = require("../libs/balanceLibs");
 const resLibs = require("../libs/resLibs");
 const userLibs = require("../libs/userLibs");
 const authLibs = require("../libs/authenticationLibs");
+const balanceLibs = require("../libs/balanceLibs");
 
 class userControllers {
 	static register(req, res) {
@@ -58,6 +59,17 @@ class userControllers {
 			if (isDeleted) {
 				resLibs.success(res, "Your account has been successfully deleted", { user }, "deleted");
 			}
+		}
+	}
+
+	static async topUp(req, res) {
+		let user = await userLibs.getById(req.params.userId);
+		let user_auth = await authLibs.checkUserAuth(req, res, user);
+		let isAuthenticated = user_auth.value;
+
+		if (isAuthenticated) {
+			let current_balance = parseInt(user.balance),
+				top_up_nominal = req.body.balance;
 		}
 	}
 }

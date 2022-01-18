@@ -7,6 +7,9 @@ const loginMiddleware = require("../libs/authenticationLibs");
 route.post("/users/register", userControllers.register);
 route.post("/users/login", userControllers.login);
 
+// USER TOP UP
+route.post("/users/topup", userControllers.topUp);
+
 // MIDDLEWARE CHECK USER
 route.use(loginMiddleware.loginMiddleware);
 
@@ -14,10 +17,12 @@ route.use(loginMiddleware.loginMiddleware);
 route.put("/users/:userId", userControllers.edit);
 route.delete("/users/:userId", userControllers.delete);
 
-//MIDDLEWARE CHECK CATEGORY
+// CRUD CATEGORY
 route.post("/categories", categoryControllers.create);
 route.get("/categories", categoryControllers.index);
 route.patch("/categories/:categoryId", categoryControllers.update);
 route.delete("/categories/:categoryId", categoryControllers.delete);
+
+// CRUD PRODUCT
 
 module.exports = route;
