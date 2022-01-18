@@ -44,7 +44,7 @@ class resLibs {
 
 	static error(res, err) {
 		let errCode = 500,
-			errMessages = err.message,
+			errMessages = [],
 			msg;
 
 		if (err.name.includes("Sequelize")) {

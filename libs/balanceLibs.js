@@ -1,3 +1,5 @@
+const resLibs = require("../libs/resLibs");
+
 class balanceLibs {
 	static rupiahGenerator(value) {
 		let formater = new Intl.NumberFormat("en-US", {
@@ -12,6 +14,18 @@ class balanceLibs {
 				.substring(0, length - 4);
 
 		return final;
+	}
+
+	static async addBalance(res, current, value, user) {
+		let updated_balance = current + value;
+		try {
+			await user.update({
+				balance: updated_balance,
+			});
+			await user.save();
+		} catch (err) {
+			resLibs.error(res, err);
+		}
 	}
 }
 

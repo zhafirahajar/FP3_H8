@@ -44,8 +44,35 @@ module.exports = (sequelize) => {
 				},
 			},
 
-			price: DataTypes.INTEGER,
-			CategoryId: DataTypes.INTEGER,
+			price: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				validate: {
+					notNull: {
+						msg: "Price required",
+					},
+					notEmpty: {
+						args: true,
+						msg: "Price cannot be empty",
+					},
+					isInt: {
+						args: true,
+						msg: "Price must be integer value",
+					},
+					min: {
+						args: [0],
+						msg: "Product's price cannot less then Rp. 0",
+					},
+					max: {
+						args: [50000000],
+						msg: "Product's price cannot more then Rp. 50.000.000",
+					},
+				},
+			},
+
+			CategoryId: {
+				type: DataTypes.INTEGER,
+			},
 		},
 		{
 			sequelize,

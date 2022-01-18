@@ -1,11 +1,15 @@
 const route = require("express").Router();
 const userControllers = require("../controllers/userControllers");
 const categoryControllers = require("../controllers/categoryControllers");
+const productControllers = require("../controllers/productControllers");
 const loginMiddleware = require("../libs/authenticationLibs");
 
 // USER REGIS - LOGIN ROUTE
 route.post("/users/register", userControllers.register);
 route.post("/users/login", userControllers.login);
+
+// USER TOP UP
+route.post("/users/topup", userControllers.topUp);
 
 // MIDDLEWARE CHECK USER
 route.use(loginMiddleware.loginMiddleware);
@@ -14,10 +18,17 @@ route.use(loginMiddleware.loginMiddleware);
 route.put("/users/:userId", userControllers.edit);
 route.delete("/users/:userId", userControllers.delete);
 
-//MIDDLEWARE CHECK CATEGORY
+// CRUD CATEGORY
 route.post("/categories", categoryControllers.create);
 route.get("/categories", categoryControllers.index);
 route.patch("/categories/:categoryId", categoryControllers.update);
 route.delete("/categories/:categoryId", categoryControllers.delete);
+
+// CRUD PRODUCT
+route.post("/products", productControllers.create);
+// route.get("/products", productControllers.index);
+// route.put("/products/:productId", productControllers.index);
+// route.patch("product/:productId",productControllers.changeCategory)
+// route.delete("/products/:productId", productControllers.delete)
 
 module.exports = route;
