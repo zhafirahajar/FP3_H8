@@ -66,13 +66,14 @@ class userControllers {
 	static async topUp(req, res) {
 		let token = req.headers.token,
 			user_login = jwt.verify(token, SECRET_KEY),
-			user_instance = await userLibs.getById(user_login.id);
+			user_instance = await userLibs.getById(user_login.id),
+			top_up_nominal = parseInt(req.body.balance),
+			isUpdated = await balanceLibs.addBalance(res, top_up_nominal, user_instance),
+			balanceRP = RPGen.rupiahGenerator(isUpdated.updated_balance);
 
-		let top_up_nominal = parseInt(req.body.balance),
-			updated_balance = await balanceLibs.addBalance(res, top_up_nominal, user_instance),
-			balanceRP = RPGen.rupiahGenerator(updated_balance);
-
-		resLibs.success(res, balanceRP, null, "topUp");
+		if (isUpdated.status) {
+			resLibs.success(res, balanceRP, null, "topUp");
+		}
 	}
 }
 
