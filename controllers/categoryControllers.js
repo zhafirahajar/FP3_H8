@@ -39,10 +39,6 @@ class categoryControllers{
                     errCode = 400;
             }
 
-            res.status(errCode).json({
-                    error: err.name,
-                    message: errMessages,
-            });
 }))
     }
 
@@ -94,7 +90,7 @@ class categoryControllers{
                 id : req.params.categoryId
             }
         })
-        console.log(category_instance)
+       
 
         if (category_instance === null){
             res.status(404).json({msg : "Category does not exists"})

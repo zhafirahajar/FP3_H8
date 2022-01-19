@@ -8,6 +8,10 @@ class categoryLibs {
 
 		return categoryInstance;
 	}
+
+	static async addSoldProduct(){
+		
+	}
 }
 
 module.exports = categoryLibs;
