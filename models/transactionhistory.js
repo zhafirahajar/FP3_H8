@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 			// Relasi TransactionHistory -> Product
 			TransactionHistory.belongsTo(models.Product, { foreignKey: "ProductId" });
 			//relasi TransactionHistory -> Users
-			TransactionHistory.belongsTo(models.User, { foreignKey: "Userid" });
+			TransactionHistory.belongsTo(models.User, { foreignKey: "UserId" });
 		}
 	}
 	TransactionHistory.init(
