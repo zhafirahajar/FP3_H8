@@ -18,11 +18,26 @@ class balanceLibs {
 	}
 
 	static async addBalance(res, value, user) {
-		try {
-			await user.increment("balance", { by: value });
-			return user.balance;
-		} catch (err) {
-			resLibs.error(res, err);
+		let total_balance = user.balance + value,
+			status = false,
+			updated_balance = user.balance,
+			response;
+
+		if (total_balance > 100000000) {
+			response = resLibs.exceedLimit(res);
+			return { response, updated_balance, status };
+		} else {
+			try {
+				await user.increment("balance", { by: value });
+				updated_balance = user.balance;
+				status = true;
+				return { updated_balance, status };
+			} catch (err) {
+				status = false;
+				updated_balance = user.balance;
+				response = resLibs.error(res, err);
+				return { response, updated_balance, status };
+			}
 		}
 	}
 
