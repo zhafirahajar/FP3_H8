@@ -18,29 +18,33 @@ class productController {
 			let { title, price, stock, CategoryId } = req.body,
 				category = await categoryLibs.getById(CategoryId);
 
-			if (category == null) {
-				resLibs.notFound(res, "Category");
+			if (stock < 5) {
+				resLibs.stockExceed5(res);
 			} else {
-				Product.create({ title, price, stock, CategoryId })
-					.then((data) => {
-						let { id, title, stock, CategoryId, updatedAt, createdAt } = data,
-							priceRP = RPGen.rupiahGenerator(data.price);
+				if (category == null) {
+					resLibs.notFound(res, "Category");
+				} else {
+					Product.create({ title, price, stock, CategoryId })
+						.then((data) => {
+							let { id, title, stock, CategoryId, updatedAt, createdAt } = data,
+								priceRP = RPGen.rupiahGenerator(data.price);
 
-						resLibs.created(res, {
-							products: {
-								id,
-								title,
-								price: priceRP,
-								stock,
-								CategoryId,
-								updatedAt,
-								createdAt,
-							},
+							resLibs.created(res, {
+								products: {
+									id,
+									title,
+									price: priceRP,
+									stock,
+									CategoryId,
+									updatedAt,
+									createdAt,
+								},
+							});
+						})
+						.catch((err) => {
+							resLibs.error(res, err);
 						});
-					})
-					.catch((err) => {
-						resLibs.error(res, err);
-					});
+				}
 			}
 		}
 	}

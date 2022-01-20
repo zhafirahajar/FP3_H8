@@ -86,6 +86,10 @@ class resLibs {
 		return res.status(404).json({ message: "Not enough stock!" });
 	}
 
+	static stockExceed5(res) {
+		return res.status(400).json({ message: "Product's stock cannot less then 5" });
+	}
+
 	// ###########################
 
 	// Response for balance user //
