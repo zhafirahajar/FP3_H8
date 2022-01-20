@@ -9,36 +9,38 @@ class categoryControllers {
 	static async create(req, res) {
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY);
 		let user = await userLibs.getById(user_login.id);
-		let user_auth = await authLibs.checkUserAuth(req, res, user);
-		let isAuthenticated = user_auth.value;
+		// let user_auth = await authLibs.checkUserAuth(req, res, user);
+		// let isAuthenticated = user_auth.value;
 		let isAdmin = await authLibs.checkAdmin(res, user);
 
-		let input = {
-			type: req.body.type,
-		};
-		Category.create(input)
-			.then((data) => {
-				res.status(201).json({
-					id: data.id,
-					type: data.type,
-					updatedAt: data.updatedAt,
-					createdAt: data.createdAt,
-					sold_product_amount: data.sold_product_amount,
+		if (isAdmin.value) {
+			let input = {
+				type: req.body.type,
+			};
+			Category.create(input)
+				.then((data) => {
+					res.status(201).json({
+						id: data.id,
+						type: data.type,
+						updatedAt: data.updatedAt,
+						createdAt: data.createdAt,
+						sold_product_amount: data.sold_product_amount,
+					});
+				})
+				.catch((err) => {
+					let errCode = 500;
+					let errMessages = [];
+
+					for (let index in err.errors) {
+						let errMsg = err.errors[index].message;
+						errMessages.push(errMsg);
+					}
+
+					if (err.name.includes("Sequelize")) {
+						errCode = 400;
+					}
 				});
-			})
-			.catch((err) => {
-				let errCode = 500;
-				let errMessages = [];
-
-				for (let index in err.errors) {
-					let errMsg = err.errors[index].message;
-					errMessages.push(errMsg);
-				}
-
-				if (err.name.includes("Sequelize")) {
-					errCode = 400;
-				}
-			});
+		}
 	}
 
 	static async index(req, res) {
