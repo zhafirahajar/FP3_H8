@@ -9,6 +9,43 @@ class productLibs {
 		return productInstance;
 	}
 
+	static async getAll() {
+		let product = Product.findAll().then().catch();
+		return product;
+	}
+
+	static async update(req, productId) {
+		let productInstance = await this.getById(productId),
+			isUpdated = false,
+			response;
+
+		if (productInstance == null) {
+			response = resLibs.notFound(res, "Product");
+			return { response, isUpdated };
+		} else {
+			let price_data =
+				req.body.price == undefined || req.body.price == "" ? productInstance.price : req.body.price;
+
+			let stock_data =
+				req.body.stodk == undefined || req.body.stock == "" ? productInstance.stock : req.body.stock;
+
+			let title_data =
+				req.body.title == undefined || req.body.title == "" ? productInstance.title : req.body.title;
+
+			await productInstance.update({
+				price: price_data,
+				stock: stock_data,
+				title: title_data,
+			});
+
+			await productInstance.save();
+
+			isUpdated = true;
+
+			return { isUpdated };
+		}
+	}
+
 	static async checkStock(res, value, productId) {
 		let productInstance = await this.getById(productId),
 			isStocked = false,
