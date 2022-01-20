@@ -80,22 +80,6 @@ class productController {
 				let product = await productLibs.getById(req.params.productId);
 				resLibs.success(res, null, product, "productUpdated");
 			}
-		} else {
-			resLibs.notAdmin(res);
-		}
-	}
-
-	static async delete(req, res) {
-		let user_login = jwt.verify(req.headers.token, SECRET_KEY),
-			user = await userLibs.getById(user_login.id),
-			isAdmin = await authLibs.checkAdmin(res, user);
-		if (isAdmin) {
-			let isDeleted = await productLibs.deleteProduct(res, req.params.productId);
-			if (isDeleted) {
-				resLibs.success(res, "Product has been successfully deleted", null, "deleted");
-			}
-		} else {
-			resLibs.notAdmin(res);
 		}
 	}
 
