@@ -2,6 +2,7 @@ const route = require("express").Router();
 const userControllers = require("../controllers/userControllers");
 const categoryControllers = require("../controllers/categoryControllers");
 const productControllers = require("../controllers/productControllers");
+const transactionControllers = require("../controllers/transactionControllers")
 const loginMiddleware = require("../libs/authenticationLibs");
 
 // USER REGIS - LOGIN ROUTE
@@ -30,5 +31,14 @@ route.get("/products", productControllers.index);
 route.put("/products/:productId", productControllers.update);
 route.patch("product/:productId", productControllers.changeCategory);
 // route.delete("/products/:productId", productControllers.delete)
+
+// TRANSACTION HISTORY
+route.post("/transactions", transactionControllers.create);
+route.get("/transactions/user", transactionControllers.index);
+route.get("/transactions/admin", transactionControllers.admin);
+route.get("/transactions/:transactionsId", transactionControllers.getOne);
+// route.patch("product/:productId",productControllers.changeCategory)
+// route.delete("/products/:productId", productControllers.delete)
+
 
 module.exports = route;

@@ -11,9 +11,9 @@ module.exports = {
 					full_name: "admin",
 					email: "admin@gmail.com",
 					password: hash,
-          gender: "male",
-          role : "admin",
-          balance: 0,
+          			gender: "male",
+          			role : "admin",
+          			balance: 0,
 					createdAt: new Date(),
 					updatedAt: new Date()
 				}	
