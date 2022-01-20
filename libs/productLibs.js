@@ -1,5 +1,6 @@
 const { Product } = require("../models");
 const resLibs = require("../libs/resLibs");
+const categoryLibs = require("../libs/categoryLibs");
 
 class productLibs {
 	static async getById(productId) {
@@ -14,7 +15,7 @@ class productLibs {
 		return product;
 	}
 
-	static async update(req, productId) {
+	static async update(req, res, productId) {
 		let productInstance = await this.getById(productId),
 			isUpdated = false,
 			response;
@@ -27,7 +28,7 @@ class productLibs {
 				req.body.price == undefined || req.body.price == "" ? productInstance.price : req.body.price;
 
 			let stock_data =
-				req.body.stodk == undefined || req.body.stock == "" ? productInstance.stock : req.body.stock;
+				req.body.stock == undefined || req.body.stock == "" ? productInstance.stock : req.body.stock;
 
 			let title_data =
 				req.body.title == undefined || req.body.title == "" ? productInstance.title : req.body.title;
@@ -43,6 +44,44 @@ class productLibs {
 			isUpdated = true;
 
 			return { isUpdated };
+		}
+	}
+
+	static async updateCategory(req, res, productId) {
+		let productInstance = await this.getById(productId),
+			isUpdated = false,
+			response;
+
+		if (productInstance == null) {
+			response = resLibs.notFound(res, "Product");
+			return { response, isUpdated };
+		} else {
+			let category_data =
+				req.body.CategoryId == undefined || req.body.CategoryId == ""
+					? productInstance.CategoryId
+					: req.body.CategoryId;
+
+			let category = await categoryLibs.getById(category_data);
+
+			if (category == null) {
+				response = resLibs.notFound(res, "Category");
+				return { response, isUpdated };
+			} else {
+				if (category == null) {
+					response = resLibs.notFound(res, "Category");
+					return { response, isUpdated };
+				} else {
+					await productInstance.update({
+						CategoryId: category_data,
+					});
+
+					await productInstance.save();
+
+					isUpdated = true;
+
+					return { isUpdated };
+				}
+			}
 		}
 	}
 

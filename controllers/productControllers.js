@@ -54,13 +54,15 @@ class productController {
 	}
 
 	static async update(req, res) {
+		let productId = req.params.productId;
+
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY),
 			user = await userLibs.getById(user_login.id),
 			isAdmin = await authLibs.checkAdmin(res, user);
 		if (isAdmin) {
-			let isUpdated = await productLibs.update(req, req.params.productId);
+			let isUpdated = await productLibs.update(req, res, productId);
 			if (isUpdated.isUpdated) {
-				let product = await productLibs.getById(req.params.productId);
+				let product = await productLibs.getById(productId);
 				resLibs.success(res, null, product, "productUpdated");
 			}
 		} else {
@@ -68,7 +70,18 @@ class productController {
 		}
 	}
 
-	static async changeCategory(req, res) {}
+	static async changeCategory(req, res) {
+		let user_login = jwt.verify(req.headers.token, SECRET_KEY),
+			user = await userLibs.getById(user_login.id),
+			isAdmin = await authLibs.checkAdmin(res, user);
+		if (isAdmin) {
+			let isUpdated = await productLibs.updateCategory(req, res, req.params.productId);
+			if (isUpdated.isUpdated) {
+				let product = await productLibs.getById(req.params.productId);
+				resLibs.success(res, null, product, "productUpdated");
+			}
+		}
+	}
 }
 
 module.exports = productController;
