@@ -89,6 +89,10 @@ class resLibs {
 		return res.status(400).json({ message: "E-money balance cannot exceed Rp. 100.000.000" });
 	}
 
+	static notEnoughBalance(res) {
+		return res.status(400).json({ message: "You don't have enough balance for this transaction." });
+	}
+
 	// ###########################
 }
 
