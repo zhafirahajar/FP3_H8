@@ -112,7 +112,7 @@ class productLibs {
 	static async updateStock(res, value, productId) {
 		let productInstance = await this.getById(productId),
 			updated_stock;
-
+		console.log(value)
 		if (productInstance == null) {
 			resLibs.notFound(res, "Product");
 		} else {
