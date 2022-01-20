@@ -15,23 +15,20 @@ class transactionControllers{
         let { produkId, quantity} = req.body;
         let produk_instance = await productLibs.getById(produkId)
         let checkStock = await productLibs.checkStock(res, quantity, produkId)
-        //pada saat pengecekan user balance ketika user sudah login dengan balance 0, lalu topup apakah data balance yang di bawa hasil top up apa masih 0
-        //harus di handle non intger
         let hargaBeli = parseInt(quantity) * parseInt(produk_instance.price)
-        let checkBalance = user_instance.balance - hargaBeli
-
+        if(checkStock === true){
+            let reduceBalance = balanceLibs.reduceBalance(res, hargaBeli, user_instance)
+            let updateStock = productLibs.updateStock(res, parseInt(quantity), produk_instance.id)
+        }
         
-        if(checkBalance < 0 ){
-            res.status(403).json({msg : "Not enough balance!"})
-        }else{
-
+       
             /*
                 - kurangi balance
                 - tambah product terjual di kategory
                 - kurangi stok barang
             */
-            let reduceBalance = await balanceLibs.addBalance(res, hargaBeli, user_instance)
-            console.log("laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",reduceBalance)
+            
+
             
             let input = {
                 ProductId : parseInt(produkId),
@@ -64,7 +61,7 @@ class transactionControllers{
                         errCode = 400;
                 }
             })
-        } 
+        
     }
 
     static async index(req, res){
