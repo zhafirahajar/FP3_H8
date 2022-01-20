@@ -26,9 +26,9 @@ route.delete("/categories/:categoryId", categoryControllers.delete);
 
 // CRUD PRODUCT
 route.post("/products", productControllers.create);
-// route.get("/products", productControllers.index);
-// route.put("/products/:productId", productControllers.index);
-// route.patch("product/:productId",productControllers.changeCategory)
+route.get("/products", productControllers.index);
+route.put("/products/:productId", productControllers.update);
+route.patch("product/:productId", productControllers.changeCategory);
 // route.delete("/products/:productId", productControllers.delete)
 
 module.exports = route;

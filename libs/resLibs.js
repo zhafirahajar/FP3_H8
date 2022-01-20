@@ -3,8 +3,7 @@ class resLibs {
 		switch (desc) {
 			case "token":
 				return res.status(200).json({ token: data });
-				break;
-			case "updated":
+			case "userUpdated":
 				return res.status(200).json({
 					user: {
 						id: data.user.id,
@@ -14,15 +13,21 @@ class resLibs {
 						updatedAt: data.user.updatedAt,
 					},
 				});
-				break;
 			case "deleted":
 				return res.status(200).json({
 					message: msg,
 				});
-				break;
 			case "topUp":
 				return res.status(200).json({
 					message: `Your balance has been successfully updated to ${msg}`,
+				});
+			case "productList":
+				return res.status(200).json({
+					products: data,
+				});
+			case "productUpdated":
+				return res.status(200).json({
+					products: data,
 				});
 		}
 	}
