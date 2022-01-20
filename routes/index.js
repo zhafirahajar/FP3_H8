@@ -30,14 +30,12 @@ route.post("/products", productControllers.create);
 route.get("/products", productControllers.index);
 route.put("/products/:productId", productControllers.update);
 route.patch("/products/:productId", productControllers.changeCategory);
-// route.delete("/products/:productId", productControllers.delete)
+route.delete("/products/:productId", productControllers.delete);
 
 // TRANSACTION HISTORY
 route.post("/transactions", transactionControllers.create);
 route.get("/transactions/user", transactionControllers.index);
 route.get("/transactions/admin", transactionControllers.admin);
 route.get("/transactions/:transactionsId", transactionControllers.getOne);
-// route.patch("product/:productId",productControllers.changeCategory)
-// route.delete("/products/:productId", productControllers.delete)
 
 module.exports = route;
