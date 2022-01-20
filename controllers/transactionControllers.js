@@ -7,7 +7,11 @@ const resLibs = require("../libs/resLibs");
 const productLibs = require("../libs/productLibs");
 const balanceLibs = require("../libs/balanceLibs");
 const RPGen = require("../libs/balanceLibs");
+<<<<<<< Updated upstream
 const { ReadyForQueryMessage } = require("pg-protocol/dist/messages");
+=======
+const categoryLibs = require("../libs/categoryLibs");
+>>>>>>> Stashed changes
 
 class transactionControllers {
 	static async create(req, res) {
@@ -25,6 +29,7 @@ class transactionControllers {
 
 		if (checkStock.isStocked) {
 			let reduceBalance = await balanceLibs.reduceBalance(res, hargaBeli, user_instance);
+<<<<<<< Updated upstream
 
 			// check user's balance
 			if (reduceBalance.status == false) {
@@ -37,6 +42,18 @@ class transactionControllers {
 					quantity: parseInt(quantity),
 					total_price: hargaBeli,
 				};
+=======
+			let updateStock = await productLibs.updateStock(res, parseInt(quantity), produk_instance.id);
+            let soldProduct = await categoryLibs.addSoldProduct(res, parseInt(quantity), produk_instance.CategoryId)
+		}
+        
+		let input = {
+			ProductId: parseInt(productId),
+			UserId: user_instance.id,
+			quantity: parseInt(quantity),
+			total_price: hargaBeli,
+		};
+>>>>>>> Stashed changes
 
 				TransactionHistory.create(input)
 					.then((data) => {
