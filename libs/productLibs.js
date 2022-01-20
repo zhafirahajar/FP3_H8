@@ -100,7 +100,9 @@ class productLibs {
 				response = resLibs.outOfStock(res);
 				return { response, isStocked };
 			} else if (value > stock) {
+				isStocked = false
 				response = resLibs.notEnoughStock(res);
+				return {response, isStocked}
 			} else {
 				response = null;
 				isStocked = true;

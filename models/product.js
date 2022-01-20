@@ -38,8 +38,8 @@ module.exports = (sequelize) => {
 						msg: "Stock must be integer value",
 					},
 					min: {
-						args: [5],
-						msg: "Product's stock cannot less then 5",
+						args: [0],
+						msg: "Product's stock cannot less then 0",
 					},
 				},
 			},
