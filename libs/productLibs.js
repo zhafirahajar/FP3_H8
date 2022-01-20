@@ -127,6 +127,21 @@ class productLibs {
 			}
 		}
 	}
+
+	static async deleteProduct(res, productId) {
+		let productInstance = await this.getById(productId),
+			isDeleted = false,
+			response;
+
+		if (productInstance == null) {
+			response = resLibs.notFound(res, "Product");
+			return { response, isDeleted };
+		} else {
+			await productInstance.destroy();
+			isDeleted = true;
+			return isDeleted;
+		}
+	}
 }
 
 module.exports = productLibs;

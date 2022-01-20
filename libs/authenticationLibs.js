@@ -22,11 +22,15 @@ class authLibs {
 
 	static checkPass(req, res, data) {
 		let compare = bcrypt.compareSync(req.body.password, data.password);
+		let status = false;
+
 		if (compare == true) {
 			let token = jwt.sign(data.toJSON(), SECRET_KEY);
-			return token;
+			status = true;
+			return { token, status };
 		} else {
-			resLibs.unauthorized(res);
+			let response = resLibs.unauthorized(res);
+			return { response, status };
 		}
 	}
 

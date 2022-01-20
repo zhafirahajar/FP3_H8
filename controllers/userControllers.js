@@ -32,8 +32,10 @@ class userControllers {
 		if (user == null) {
 			resLibs.unauthorized(res);
 		} else {
-			let token = authLibs.checkPass(req, res, user);
-			resLibs.success(res, null, token, "token");
+			let login = authLibs.checkPass(req, res, user);
+			if (login.status) {
+				resLibs.success(res, null, login.token, "token");
+			}
 		}
 	}
 
