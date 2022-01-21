@@ -7,7 +7,9 @@ const resLibs = require("../libs/resLibs");
 const productLibs = require("../libs/productLibs");
 const balanceLibs = require("../libs/balanceLibs");
 const RPGen = require("../libs/balanceLibs");
-const { ReadyForQueryMessage } = require("pg-protocol/dist/messages");
+const categoryLibs = require("../libs/categoryLibs");
+const transcationsLibs = require("../libs/transactionsLibs")
+
 
 class transactionControllers {
 	static async create(req, res) {
@@ -22,6 +24,8 @@ class transactionControllers {
 
 		// check product's stock
 		let checkStock = await productLibs.checkStock(res, quantity, productId);
+
+		//add sold
 
 		if (checkStock.isStocked) {
 			let reduceBalance = await balanceLibs.reduceBalance(res, hargaBeli, user_instance);
@@ -39,8 +43,9 @@ class transactionControllers {
 				};
 
 				TransactionHistory.create(input)
-					.then((data) => {
+					.then( async (data) => {
 						let totalRP = RPGen.rupiahGenerator(data.total_price);
+						let addSoldProduct = await categoryLibs.addSoldProduct(res, quantity, produk_instance.CategoryId)
 						res.status(201).json({
 							message: "you have succesfully purchase the product",
 							TransactionBill: {
@@ -108,16 +113,16 @@ class transactionControllers {
 
 	static async getOne(req, res) {
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY);
-		let user = await userLibs.getById(user_login.id);
-		let user_auth = await authLibs.checkUserAuth(req, res, user);
-		let isAuthenticated = user_auth.value;
-		let isAdmin = await authLibs.checkAdmin(res, user);
-
+		let user_instance = await userLibs.getById(user_login.id);
+		let transaction_instance = await transcationsLibs.getById(parseInt(req.params.transactionsId))
+		if(user_instance.role != "admin" && transaction_instance.UserId != user_instance.id){
+			console.log("masuk sini")
+			res.status(403).json({"message" : "You dont have permision"})
+		}
 		TransactionHistory.findOne({
 			where: { id: req.params.transactionsId },
 			attributes: { exclude: ["id"] },
 			include: { model: Product, attributes: ["id", "title", "price", "stock", "CategoryId"] },
-			plain: true,
 		})
 			.then((data) => {
 				res.status(200).json({ data });
