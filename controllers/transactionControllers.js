@@ -116,7 +116,6 @@ class transactionControllers {
 		let user_instance = await userLibs.getById(user_login.id);
 		let transaction_instance = await transcationsLibs.getById(parseInt(req.params.transactionsId))
 		if(user_instance.role != "admin" && transaction_instance.UserId != user_instance.id){
-			console.log("masuk sini")
 			res.status(403).json({"message" : "You dont have permision"})
 		}
 		TransactionHistory.findOne({
