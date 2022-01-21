@@ -21,6 +21,11 @@ module.exports = {
 		database: "ddagrb67no6bk4",
 		host: "ec2-34-226-179-89.compute-1.amazonaws.com",
 		dialect: "postgres",
-		"port": 5432
+		"port": 5432,
+		"dialectOptions": {
+			"ssl": {
+			  "rejectUnauthorized": false
+			}
+		  }
 	},
 };
