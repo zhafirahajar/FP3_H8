@@ -42,7 +42,6 @@ class categoryControllers {
 					res.status(errCode).json({
 						message: errMessages
 					})
-
 				});
 		}
 	}
