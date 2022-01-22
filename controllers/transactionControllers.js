@@ -20,6 +20,9 @@ class transactionControllers {
 		//get product and price
 		let { productId, quantity } = req.body;
 		let produk_instance = await productLibs.getById(productId);
+		if(produk_instance == null){
+			res.status(404).json({message : "product not found"})
+		}
 		let hargaBeli = parseInt(quantity) * parseInt(produk_instance.price);
 
 		// check product's stock

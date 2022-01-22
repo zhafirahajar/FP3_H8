@@ -11,7 +11,7 @@ class categoryLibs {
 
 	static async addSoldProduct(res, value, categoryId) {		
 		let category = await this.getById(categoryId)
-		console.log(category)
+		//console.log(category)
 		try {
 			await category.increment("sold_product_amount", { by: value });
 		} catch (err) {
