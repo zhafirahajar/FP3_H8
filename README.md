@@ -7,14 +7,15 @@
   </a>
 
   <h3 align="center">Kampus Merdeka - Studi Independen</h3>
+  <h2 align="center">Final Project 3 - Toko Belanja</h2>
 
   <p align="center">
     Intro to Node JS
     <br />
-    <a href="https://github.com/zhafirahajar/FP2_H8"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/zhafirahajar/FP3_H8"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <h3><a href="">Demo this API on heroku</a></h3?>
+    <h3><a href="https://desolate-sands-91666.herokuapp.com">Demo this API on heroku</a></h3?>
   </p>
 </div>
 
