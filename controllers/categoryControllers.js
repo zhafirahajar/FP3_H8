@@ -9,8 +9,6 @@ class categoryControllers {
 	static async create(req, res) {
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY);
 		let user = await userLibs.getById(user_login.id);
-		// let user_auth = await authLibs.checkUserAuth(req, res, user);
-		// let isAuthenticated = user_auth.value;
 		let isAdmin = await authLibs.checkAdmin(res, user);
 
 		if (isAdmin.value) {
@@ -30,15 +28,21 @@ class categoryControllers {
 				.catch((err) => {
 					let errCode = 500;
 					let errMessages = [];
-
-					for (let index in err.errors) {
-						let errMsg = err.errors[index].message;
-						errMessages.push(errMsg);
+		
+					if(err.name.includes("SequelizeForeignKeyConstraint")){
+						errCode = 400
+						errMessages.push(err.parent.detail);
+					}else if (err.name.includes("SequelizeValidation")) {
+						errCode = 400
+						for (let index in err.errors) {
+							let errMsg = err.errors[index].message;
+							errMessages.push(errMsg);
+						}
 					}
+					res.status(errCode).json({
+						message: errMessages
+					})
 
-					if (err.name.includes("Sequelize")) {
-						errCode = 400;
-					}
 				});
 		}
 	}
