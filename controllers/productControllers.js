@@ -7,6 +7,7 @@ const authLibs = require("../libs/authenticationLibs");
 const userLibs = require("../libs/userLibs");
 
 const jwt = require("jsonwebtoken");
+const { rupiahGenerator } = require("../libs/balanceLibs");
 const { SECRET_KEY } = process.env;
 
 class productController {
@@ -51,12 +52,29 @@ class productController {
 
 	static async index(req, res) {
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY),
-			user = await userLibs.getById(user_login.id),
+			user = await userLibs.getById(user_login.id)
+		
+			Product.findAll({ 
+				attributes: ["title", "price", "stock", "CategoryId"]
+			 })
+			.then(data=>{
+				data.forEach((data) => {
+					data.price = RPGen.rupiahGenerator(data.price)
+				  })
+					res.status(200).json({
+					products : data
+				  })
+			})
+			.catch(err=>{
+				res.status(500).json(err)
+			})
+		/*
 			isAdmin = await authLibs.checkAdmin(res, user);
 		if (isAdmin.value) {
 			let product = await productLibs.getAll();
 			resLibs.success(res, null, product, "productList");
 		}
+		*/
 	}
 
 	static async update(req, res) {
