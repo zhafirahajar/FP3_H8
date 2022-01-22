@@ -78,7 +78,7 @@ class categoryControllers {
 			});
 	}
 
-	//saat type tidak di kirim dia tidak error
+
 	static async update(req, res) {
 		let user_login = jwt.verify(req.headers.token, SECRET_KEY);
 		let user = await userLibs.getById(user_login.id);

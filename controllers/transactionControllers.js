@@ -56,17 +56,7 @@ class transactionControllers {
 						});
 					})
 					.catch((err) => {
-						let errCode = 500;
-						let errMessages = [];
-
-						for (let index in err.errors) {
-							let errMsg = err.errors[index].message;
-							errMessages.push(errMsg);
-						}
-
-						if (err.name.includes("Sequelize")) {
-							errCode = 400;
-						}
+						res.status(500).json(err)
 					});
 			}
 		}
@@ -82,7 +72,11 @@ class transactionControllers {
 			include: { model: Product, attributes: ["id", "title", "price", "stock", "CategoryId"] },
 		})
 			.then((data) => {
-				res.status(200).json({ transcationHistories: data });
+			data.map(x => {
+				x.total_price = RPGen.rupiahGenerator(x.total_price)
+				x.Product.price = RPGen.rupiahGenerator(x.Product.price)
+			})
+				res.status(200).json({ transcationHistories: data});
 			})
 			.catch((err) => {
 				res.status(500).json(err);
@@ -104,6 +98,10 @@ class transactionControllers {
 			],
 		})
 			.then((data) => {
+				data.map(x => {
+					x.total_price = RPGen.rupiahGenerator(x.total_price)
+					x.Product.price = RPGen.rupiahGenerator(x.Product.price)
+				})
 				res.status(200).json({ transcationHistories: data });
 			})
 			.catch((err) => {
@@ -124,7 +122,22 @@ class transactionControllers {
 			include: { model: Product, attributes: ["id", "title", "price", "stock", "CategoryId"] },
 		})
 			.then((data) => {
-				res.status(200).json({ data });
+				res.status(200).json({ 
+					ProductId : data.ProductId,
+					UserId: data.UserId,
+					quantity: data.quantity,
+					total_price: RPGen.rupiahGenerator(data.total_price),
+					createdAt : data.createdAt,
+					updatedAt: data.updatedAt,
+					Product:{
+						id: data.Product.id,
+						title : data.Product.title,
+						price: RPGen.rupiahGenerator(data.Product.price),
+						stock: data.Product.stock,
+						CategoryId: data.Product.CategoryId
+					}
+
+				 });
 			})
 			.catch((err) => {
 				res.status(500).json(err);
